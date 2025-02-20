@@ -1,6 +1,7 @@
 package dev.riftal.minecraft.scripty.rest.models;
 
 public class BlockRequest {
+
     private String world;
     private double x;
     private double y;

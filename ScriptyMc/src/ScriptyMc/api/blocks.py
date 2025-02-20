@@ -1,12 +1,13 @@
-from typing import Union
 from .base import BaseAPIHandler
-from ..models.position import Position
 from ..core.exceptions import InvalidBlockError
+from ..models.position import Position
+
 
 class BlockHandler(BaseAPIHandler):
   def validate_block_type(self, block_type: str) -> bool:
     # Add validation logic for block types
-    valid_blocks = {"STONE", "DIRT", "DIAMOND_BLOCK"}  #todo Find better way to handle the list
+    valid_blocks = {"STONE", "DIRT",
+                    "DIAMOND_BLOCK"}  # todo Find better way to handle the list
     return block_type.upper() in valid_blocks
 
   def place_block(self, position: Position, block_type: str) -> bool:

@@ -4,12 +4,12 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import dev.riftal.minecraft.scripty.rest.models.ApiResponse;
 import dev.riftal.minecraft.scripty.utils.JsonUtils;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import java.io.IOException;
 import java.io.OutputStream;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class BaseHandler implements HttpHandler {
+
     protected final JavaPlugin plugin;
 
     public BaseHandler(JavaPlugin plugin) {

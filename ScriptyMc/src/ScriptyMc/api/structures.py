@@ -1,6 +1,8 @@
+import time
+
 from .base import BaseAPIHandler
 from ..models.position import Position
-import time
+
 
 class StructureHandler(BaseAPIHandler):
   def build(self, structure_type: str, position: Position, **kwargs):

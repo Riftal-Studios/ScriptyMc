@@ -1,9 +1,11 @@
 from typing import Optional
+
 from .config import Configuration
 from ..api.blocks import BlockHandler
 from ..api.entities import EntityHandler
 from ..api.structures import StructureHandler
 from ..models.position import Position
+
 
 class MinecraftScript:
   def __init__(self, config: Optional[Configuration] = None):

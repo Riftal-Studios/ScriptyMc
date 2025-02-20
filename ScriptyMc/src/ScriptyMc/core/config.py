@@ -1,7 +1,8 @@
-from dataclasses import dataclass
-from typing import Optional
 import os
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Optional
+
 
 @dataclass
 class ServerConfig:
@@ -58,6 +59,7 @@ class ServerConfig:
       "Content-Type": "application/json",
       "Accept": "application/json"
     }
+
 
 class Configuration:
   def __init__(self):

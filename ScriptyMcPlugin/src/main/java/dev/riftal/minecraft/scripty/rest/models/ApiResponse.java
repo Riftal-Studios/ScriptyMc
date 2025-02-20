@@ -1,6 +1,7 @@
 package dev.riftal.minecraft.scripty.rest.models;
 
 public class ApiResponse {
+
     private final int status;
     private final String message;
     private Object data;
@@ -17,7 +18,15 @@ public class ApiResponse {
     }
 
     // Getters
-    public int getStatus() { return status; }
-    public String getMessage() { return message; }
-    public Object getData() { return data; }
+    public int getStatus() {
+        return status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Object getData() {
+        return data;
+    }
 }

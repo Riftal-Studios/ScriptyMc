@@ -4,12 +4,11 @@ import com.sun.net.httpserver.HttpExchange;
 import dev.riftal.minecraft.scripty.rest.models.ApiResponse;
 import dev.riftal.minecraft.scripty.rest.models.SpawnRequest;
 import dev.riftal.minecraft.scripty.utils.JsonUtils;
+import java.io.IOException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.IOException;
 
 public class SpawnEntityHandler extends BaseHandler {
 
@@ -35,7 +34,8 @@ public class SpawnEntityHandler extends BaseHandler {
                         throw new IllegalArgumentException("World not found");
                     }
 
-                    Location loc = new Location(world, request.getX(), request.getY(), request.getZ());
+                    Location loc = new Location(world, request.getX(), request.getY(),
+                            request.getZ());
                     world.spawnEntity(loc, request.getEntityType());
                 } catch (Exception e) {
                     plugin.getLogger().warning("Failed to spawn entity: " + e.getMessage());

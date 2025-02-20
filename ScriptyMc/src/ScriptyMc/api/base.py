@@ -1,15 +1,20 @@
 from abc import ABC, abstractmethod
+
 import requests
+
 from ..core.config import Configuration
 from ..core.exceptions import ConnectionError
+
 
 class APIError(Exception):
   """Base exception for API errors"""
   pass
 
+
 class AuthenticationError(APIError):
   """Raised when API key authentication fails"""
   pass
+
 
 class BaseAPIHandler(ABC):
   def __init__(self, config: Configuration):
@@ -50,7 +55,8 @@ class BaseAPIHandler(ABC):
           error_msg = response.text
         raise APIError(f"Server error: {error_msg}")
       elif isinstance(e, requests.exceptions.Timeout):
-        raise ConnectionError(f"Request timed out after {self.config.request_timeout} seconds")
+        raise ConnectionError(
+          f"Request timed out after {self.config.request_timeout} seconds")
       elif isinstance(e, requests.exceptions.ConnectionError):
         raise ConnectionError(f"Failed to connect to server at {url}")
       else:
