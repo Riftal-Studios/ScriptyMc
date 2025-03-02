@@ -5,6 +5,7 @@
 [![Minecraft](https://img.shields.io/badge/minecraft-1.20+-brightgreen.svg)](https://www.minecraft.net/)
 
 ScriptyMc is an educational project that helps kids learn programming by controlling Minecraft through Python code. It consists of two main components:
+
 - A Minecraft plugin (ScriptyPlugin) that provides a REST API
 - A Python client library that makes it easy to interact with the game
 
