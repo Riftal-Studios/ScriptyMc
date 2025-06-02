@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpExchange;
 import dev.riftal.minecraft.scripty.rest.models.ApiResponse;
 import dev.riftal.minecraft.scripty.rest.models.BlockRequest;
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -38,35 +39,36 @@ public class PlaceBlockHandler extends BaseHandler {
                 return;
             }
 
+            // Use CompletableFuture to handle async response
+            CompletableFuture<Boolean> future = new CompletableFuture<>();
+            
             // Place the block on the main server thread
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     try {
                         boolean success = placeBlock(blockRequest);
-                        if (success) {
-                            sendResponse(exchange,
-                                    new ApiResponse(200, "Block placed successfully", null));
-                        } else {
-                            sendResponse(exchange,
-                                    new ApiResponse(400, "Failed to place block", null));
-                        }
+                        future.complete(success);
                     } catch (Exception e) {
-                        try {
-                            sendResponse(exchange,
-                                    new ApiResponse(500, "Internal server error: " + e.getMessage(),
-                                            null));
-                        } catch (IOException ioException) {
-                            plugin.getLogger().severe("Failed to send error response: "
-                                    + ioException.getMessage());
-                        }
+                        future.completeExceptionally(e);
                     }
                 }
             }.runTask(plugin);
 
+            // Wait for the result and send response
+            try {
+                boolean success = future.get();
+                if (success) {
+                    sendResponse(exchange, new ApiResponse(200, "Block placed successfully", null));
+                } else {
+                    sendResponse(exchange, new ApiResponse(400, "Failed to place block", null));
+                }
+            } catch (Exception e) {
+                sendResponse(exchange, new ApiResponse(500, "Internal server error: " + e.getMessage(), null));
+            }
+
         } catch (Exception e) {
-            sendResponse(exchange,
-                    new ApiResponse(400, "Invalid request: " + e.getMessage(), null));
+            sendResponse(exchange, new ApiResponse(400, "Invalid request: " + e.getMessage(), null));
         }
     }
 
@@ -106,7 +108,8 @@ public class PlaceBlockHandler extends BaseHandler {
             }
 
             // Place the block
-            return location.getBlock().setType(material);
+            location.getBlock().setType(material);
+            return true; // Return true if no exception was thrown
         } catch (Exception e) {
             plugin.getLogger().severe("Error placing block: " + e.getMessage());
             return false;
